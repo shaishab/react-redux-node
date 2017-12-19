@@ -1,16 +1,19 @@
 {
-  "name": "articles",
+  "name": "react-redux-node",
   "version": "1.0.0",
-  "description": "this is a simple article project",
+  "description": "This is a simple example project using react redux with node.js ( express framework )",
   "main": "webpack.config.js",
   "scripts": {
     "start": "gulp",
-    "dev": "./node_modules/.bin/webpack-dev-server --content-base src --inline --hot",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "react",
-    "redux"
+    "redux",
+    "node.js",
+    "mongodb",
+    "express",
+    "bootstrap"
   ],
   "author": "shaishab.cse@gmail.com",
   "license": "ISC",

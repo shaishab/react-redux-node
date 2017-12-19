@@ -2,7 +2,7 @@
 
 module.exports = {
   app: {
-    title: 'Node React - Production Environment',
+    title: 'Node React Redux- Production Environment',
     baseUrl: '/nodereact/api/'
   },
   database:{
