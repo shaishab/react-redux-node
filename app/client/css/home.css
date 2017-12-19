@@ -1,0 +1,19 @@
+body {
+    background-color: #c4cef1;
+}
+.content {
+    background-color: #FFF;
+    padding: 20px;
+    margin-top: 60px;
+}
+.active {
+    background-color: #0099FF;
+}
+.progress-bar {
+    position: fixed;
+    display: block;
+    z-index: 1100;
+    background-color: #4b4b6f;
+    height: 5px;
+    left: 0;
+}
