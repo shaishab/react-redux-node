@@ -10,7 +10,6 @@ export function createUser(user) {
     } else {
       axios.post(apiUrl+"/users", user)
         .then((response) => {
-          console.log('response.data', response.data);
           if(response.data.success) {
             dispatch({type: "CREATE_USER_FULFILLED", result: response.data});
             history.push('/user');
@@ -31,7 +30,6 @@ export function userLogin(user) {
     } else {
       axios.post(apiUrl+"/login", user)
         .then((response) => {
-          console.log('response.data', response.data);
           if(response.data.success) {
             dispatch({type: "LOGIN_USER_FULFILLED", result: response.data});
             localStorage.setItem('user', JSON.stringify(response.data.user));

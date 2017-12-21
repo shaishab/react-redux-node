@@ -21,7 +21,6 @@ body {
 .header-avatar-parent {
     border: 1px solid #28a745;
     border-radius: 50%;
-    margin-left: 5px;
 }
 .header-avatar-parent:hover {
     cursor: pointer;
@@ -32,6 +31,9 @@ body {
 }
 .header-avatar {
     height: 40px;
+}
+.header-form {
+    margin-right: 5px;
 }
 
 .dropdown-menu.show {
@@ -44,4 +46,12 @@ body {
         left: auto;
         right: 0;
     }
+}
+
+.profile-avatar {
+    height: 132px;
+    width: 132px;
+    border: 2px solid #28a745;
+    box-shadow: 5px 10px 18px #468655;
+    margin-bottom: 25px;
 }

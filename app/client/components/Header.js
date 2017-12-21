@@ -32,7 +32,7 @@ class Header extends React.Component {
                 <NavLink to="/user"  className="nav-link">User</NavLink>
               </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
+            <form class="form-inline my-2 my-lg-0 header-form">
               <input class="form-control mr-sm-2" type="text" placeholder="Search"/>
               <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
@@ -44,7 +44,7 @@ class Header extends React.Component {
                        aria-expanded="false" src={!user.avater && '../../../public/common/default-avatar.png'}/>
 
                   <div class="dropdown-menu">
-                    <NavLink to="#"  className="dropdown-item">Profile</NavLink>
+                    <NavLink to="/user/profile"  className="dropdown-item">Profile</NavLink>
                     <a href="#"  className="dropdown-item" onClick={(e)=> {e.preventDefault(); this.props.dispatch(userLogOut())}}>Log Out</a>
                   </div>
                 </li>

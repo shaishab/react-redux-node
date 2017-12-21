@@ -1,7 +1,7 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from "react"
+import { connect } from "react-redux"
 import { Link } from 'react-router-dom'
-import {createUser} from "../../actions/userAction";
+import {createUser} from "../../actions/userAction"
 
 import { Field, reduxForm } from 'redux-form';
 
@@ -10,17 +10,17 @@ const SimpleForm = props => {
   return (
     <div>
       <div class="row justify-content-between align-items-center">
-        <div class="col-4">
-         New user Information:
+        <div class="col-6">
+          <strong>New user Information</strong>
         </div>
-        <div class="col-4">
+        <div class="col-6 text-right">
           <Link to="/user" className="btn btn-primary btn-sm ">Back</Link>
         </div>
       </div>
       <hr/>
       <form onSubmit={handleSubmit}>
         <div class="form-group row">
-          <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+          <label for="inputEmail3" class="col-sm-2 col-form-label">First Name</label>
           <div class="col-sm-10">
             <Field
               name="firstName"
@@ -32,7 +32,7 @@ const SimpleForm = props => {
           </div>
         </div>
         <div class="form-group row">
-          <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+          <label for="inputEmail3" class="col-sm-2 col-form-label">Last Name</label>
           <div class="col-sm-10">
             <Field
               name="lastName"
