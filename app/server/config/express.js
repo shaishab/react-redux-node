@@ -13,7 +13,10 @@ var fs 							 = require('fs'),
   	path 						 = require('path'),
     multer 					 = require('multer'),
     expressValidator = require('express-validator'),
-    cors   					 = require("cors");
+    cors   					 = require("cors"),
+		passport 				 =  require('passport'),
+		session 				 = require('express-session'),
+		cookieParser 		 = require('cookie-parser');
 
 module.exports = function(db) {
 	var app = express();
@@ -42,6 +45,15 @@ module.exports = function(db) {
 	app.use(express.static(path.resolve('./public')));
 	app.use(express.static(path.resolve('./dist')));
 	app.set('view engine', 'html');
+	app.use(cookieParser());
+	app.use(session(config.sessionInfo));
+	app.use(passport.initialize());
+	app.use(passport.session());
+
+	/**
+	 * Bootstrap passport config
+	 */
+	require('./auth/passport')();
 
 	// Showing stack errors
 	app.set('showStackError', true);

@@ -56,8 +56,16 @@ module.exports = {
         })
       },
       {
-        test: /\.(jpe?g|gif|png)$/,
-        loader: 'file-loader?emitFile=false&name=[path][name].[ext]'
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name].[ext]',
+              publicPath: path.join(rootPath, '/public/')
+            }
+          }
+        ]
       }]
   }
 };

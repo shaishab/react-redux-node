@@ -31,6 +31,58 @@ exports.userSignUp = function(req, res) {
   })();
 };
 
+exports.signIn = function(req, res) {
+  Promise.coroutine(function*() {
+    var response = yield UserService.signIn(req, res);
+    if(response.success) {
+      utility.logMessage('info',
+        {
+          id: constants.logging.actions.userSignIn,
+          action: constants.logging.actions.userSignIn,
+          location: constants.logging.locations.userServerController,
+          req: req ,
+          status: constants.logging.status.success
+        },{data: response});
+    } else {
+      utility.logMessage('error',
+        {
+          id: constants.logging.actions.userSignIn,
+          action: constants.logging.actions.userSignIn,
+          location: constants.logging.locations.userServerController,
+          req: req,
+          status: constants.logging.status.failed
+        }, response.errorMsg);
+    }
+    return res.status(200).json(response);
+  })();
+};
+
+exports.signOut = function(req, res) {
+  Promise.coroutine(function*() {
+    var response = yield UserService.signOut(req);
+    if(response.success) {
+      utility.logMessage('info',
+        {
+          id: constants.logging.actions.signOut,
+          action: constants.logging.actions.signOut,
+          location: constants.logging.locations.userServerController,
+          req: req ,
+          status: constants.logging.status.success
+        },{data: response});
+    } else {
+      utility.logMessage('error',
+        {
+          id: constants.logging.actions.signOut,
+          action: constants.logging.actions.signOut,
+          location: constants.logging.locations.userServerController,
+          req: req,
+          status: constants.logging.status.failed
+        }, response.errorMsg);
+    }
+    return res.status(200).json(response);
+  })();
+};
+
 exports.list = function(req, res) {
   Promise.coroutine(function*() {
     var response = yield UserService.list();

@@ -17,7 +17,7 @@ export default class UserList extends React.Component {
     var {users} = this.props.userStore;
     let mapUsers = [];
     if(users && users.length) {
-      mapUsers = users.map(user => <li key={user._id}>{user.userEmail} and status is {user.status}</li>);
+      mapUsers = users.map(user => <li key={user._id}>{user.email} and status is {user.status}</li>);
     }
 
     return <div>

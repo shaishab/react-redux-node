@@ -4,6 +4,8 @@ module.exports = {
 	logging:{
 		actions:{
 			userSignUp:'customerSignUp',
+			userSignIn:'customerSignIn',
+			signOut:'signOut',
 			userList: 'userList',
 			getUser:'getUser'
   	},// end action

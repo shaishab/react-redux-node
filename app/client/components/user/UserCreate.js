@@ -23,7 +23,31 @@ const SimpleForm = props => {
           <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
           <div class="col-sm-10">
             <Field
-              name="userEmail"
+              name="firstName"
+              class="form-control"
+              component="input"
+              type="text"
+              placeholder="Shaishab"
+            />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+          <div class="col-sm-10">
+            <Field
+              name="lastName"
+              class="form-control"
+              component="input"
+              type="text"
+              placeholder="Roy"
+            />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+          <div class="col-sm-10">
+            <Field
+              name="email"
               class="form-control"
               component="input"
               type="email"
@@ -35,7 +59,7 @@ const SimpleForm = props => {
           <label for="inputPassword3" class="col-sm-2 col-form-label">Password </label>
           <div class="col-sm-10">
             <Field
-              name="userPwd"
+              name="password"
               class="form-control"
               component="input"
               type="password"

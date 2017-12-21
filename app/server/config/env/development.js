@@ -8,5 +8,11 @@ module.exports = {
   },
   logging: {
     deployment: 'development'
+  },
+  sessionInfo: {
+    secret: 'keyboard cat',
+    cookie: {},
+    resave: false,
+    saveUninitialized: true
   }
 };
