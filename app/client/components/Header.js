@@ -1,15 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, withRouter } from 'react-router-dom'
 import LoadingBar from 'react-redux-loading-bar'
 import {userLogOut} from '../actions/userAction'
 import avatar from '../../../public/common/default-avatar.png';
-let pure = {pure: false}; // to set active class on click of NavLink
 
-@connect((store, pure) => {
+@connect((store) => {
   return {
-    userStore: store.user,
-    pure
+    userStore: store.user
   };
 })
 class Header extends React.Component {
@@ -18,7 +16,7 @@ class Header extends React.Component {
     return (
       <div>
         <nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
-          <NavLink exact to="/" className="navbar-brand">NodeReact</NavLink>
+          <Link to="/" className="navbar-brand">NodeReact</Link>
           <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                   data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
                   aria-label="Toggle navigation">
@@ -28,7 +26,7 @@ class Header extends React.Component {
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
               <li class="nav-item">
-                <NavLink exact to="/" className="nav-link" activeClassName="active">Home <span class="sr-only">(current)</span></NavLink>
+                <NavLink exact to="/" className="nav-link">Home <span class="sr-only">(current)</span></NavLink>
               </li>
               <li class="nav-item">
                 <NavLink to="/user"  className="nav-link">User</NavLink>
@@ -61,4 +59,4 @@ class Header extends React.Component {
   }
 }
 
-export default Header;
+export default withRouter(Header);
