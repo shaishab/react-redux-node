@@ -82,7 +82,15 @@ exports.list = function() {
     Promise.coroutine(function*() {
       try {
         let users = yield User.find({}).exec();
-        return resolve({success: true, users: users});
+        
+        // to set delay to show loading bar
+        setTimeout(function(){
+          return resolve({success: true, users: users});
+        },500);
+
+        // without delay
+        //return resolve({success: true, users: users});
+
       } catch (err) {
         return resolve({ success: false, errorMsg: errorResolver.resolve(err) });
       }

@@ -1,14 +1,21 @@
 'use strict';
 
 let user = JSON.parse(localStorage.getItem('user'));
-const initialState = user ? { isLoggedIn: true, user } : {};
+const initialState = user ? { fetching: false, isLoggedIn: true, user } : {fetching: false, isLoggedIn: false};
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'USER_ACTION_PENDING': {
+      return {
+        ...state,
+        fetching: true
+      };
+    }
     case 'USER_ACTION_REJECTED': {
       return {
         ...state,
         success: false,
+        fetching: false,
         message: action.result
       };
     }
@@ -16,13 +23,15 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         success: true,
+        fetching: false,
         users: action.result.users
       };
     }
     case 'CREATE_USER_FULFILLED': {
       return {
         ...state,
-        success: true
+        success: true,
+        fetching: false
       };
     }
     case 'LOGIN_USER_FULFILLED': {
@@ -30,6 +39,7 @@ const userReducer = (state = initialState, action) => {
         ...state,
         success: true,
         isLoggedIn: true,
+        fetching: false,
         user: action.result.user
       };
     }
@@ -37,6 +47,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         success: true,
+        fetching: false,
         isLoggedIn: false,
         user: {}
       };

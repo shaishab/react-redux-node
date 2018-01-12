@@ -5,6 +5,7 @@ import history from '../history';
 
 export function createUser(user) {
   return function (dispatch) {
+    dispatch({type: "USER_ACTION_PENDING"});
     if(!user.email) {
       dispatch({type: "USER_ACTION_REJECTED", result: 'User email is required!'})
     } else {
@@ -25,6 +26,7 @@ export function createUser(user) {
 
 export function userLogin(user) {
   return function (dispatch) {
+    dispatch({type: "USER_ACTION_PENDING"});
     if(!user.email) {
       dispatch({type: "USER_ACTION_REJECTED", result: 'User email is required!'})
     } else {
@@ -46,6 +48,7 @@ export function userLogin(user) {
 
 export function userLogOut() {
   return function (dispatch) {
+    dispatch({type: "USER_ACTION_PENDING"});
     axios.post(apiUrl+"/logout")
       .then((response) => {
         if(response.data.success) {
@@ -63,6 +66,7 @@ export function userLogOut() {
 
 export function fetchUsers() {
   return function (dispatch) {
+    dispatch({type: "USER_ACTION_PENDING"});
     axios.get(apiUrl+"/users")
     .then((response) => {
       dispatch({type: "FETCH_USER_FULFILLED", result: response.data})
