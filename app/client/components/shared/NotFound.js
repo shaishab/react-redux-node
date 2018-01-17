@@ -1,7 +1,19 @@
 import React from "react"
+import { connect } from "react-redux";
 import { Link } from 'react-router-dom'
 
+@connect((store) => {
+  return {
+    ...store
+  };
+})
 export default class NotFound extends React.Component {
+  componentWillMount() {
+    if ( this.props.location && this.props.location.pathname === '/api/auth/github') {
+      window.location.reload();
+    }
+  }
+
   render() {
     return (
       <div>
@@ -13,7 +25,7 @@ export default class NotFound extends React.Component {
         <div class="row text-center">
           <div class="col align-self-center">
             <h4>
-              <span class="oi oi-warning"></span>
+              <span class="oi oi-warning"/>
               Oops! The page you requested was not found!
             </h4>
           </div>
