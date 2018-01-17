@@ -1,17 +1,24 @@
 'use strict';
 
-const LocalStrategy = require('passport-local').Strategy;
-const User = require('../../../models/user.server.model');
+const passport = require('passport'),
+  LocalStrategy = require('passport-local').Strategy,
+  User = require('../../../models/user.server.model');
 
-module.exports = function(passport) {
+module.exports = function() {
   passport.use(new LocalStrategy({
       usernameField: 'email',
       passwordField: 'password'
     },
-    function(username, password, done) {
-      User.findOne({
-        username: username
-      }, function(err, user) {
+    function(email, password, done) {
+      let query = {
+        $or: [{
+          username: email.toLowerCase()
+        }, {
+          email: email.toLowerCase()
+        }]
+      };
+
+      User.findOne(query, function(err, user) {
         if (err) {
           return done(err);
         }
