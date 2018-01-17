@@ -141,15 +141,3 @@ export function editProfile(user) {
     }
   }
 }
-
-export function fetchWriter(writerId) {
-  return function (dispatch) {
-    dispatch({type: "USER_ACTION_PENDING"});
-    axios.get(apiUrl+"/writer/"+writerId)
-    .then((response) => {
-      dispatch({type: "FETCH_WRITER_FULFILLED", result: response.data})
-    }).catch((err) => {
-      dispatch({type: "USER_ACTION_REJECTED", result: err})
-    })
-  }
-}

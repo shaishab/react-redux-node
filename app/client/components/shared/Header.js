@@ -12,7 +12,6 @@ import {userLogOut} from '../../actions/userAction'
 class HeaderSection extends React.Component {
   render() {
     var {isLoggedIn, user} = this.props.userStore;
-    var isWriter =  ( user && user.roles && user.roles.indexOf('writer') > -1);
     return (
       <header>
         <nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">

@@ -33,7 +33,4 @@ module.exports = function(app) {
   app.route(url + 'users/:id')
     .get(userController.getUserById);
 
-  app.route(url + 'writer/:id')
-    .get(userController.getWriterById);
-
 };

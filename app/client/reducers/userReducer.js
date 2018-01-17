@@ -27,14 +27,6 @@ const userReducer = (state = initialState, action) => {
         users: action.result.users
       };
     }
-    case 'FETCH_WRITER_FULFILLED': {
-      return {
-        ...state,
-        success: true,
-        fetching: false,
-        writer: action.result.writer
-      };
-    }
     case 'REGISTRATION_USER_FULFILLED': {
       return {
         ...state,

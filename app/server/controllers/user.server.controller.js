@@ -223,29 +223,3 @@ exports.getUserById = function(req, res) {
     return res.status(200).json(response);
   })();
 };
-
-exports.getWriterById = function(req, res) {
-  Promise.coroutine(function*() {
-    var response = yield UserService.getWriterById(req.params);
-    if(response.success) {
-      utility.logMessage('info',
-        {
-          id: constants.logging.actions.getWriter,
-          action: constants.logging.actions.getWriter,
-          location: constants.logging.locations.userServerController,
-          req: req ,
-          status: constants.logging.status.success
-        },{data: response});
-    } else {
-      utility.logMessage('error',
-        {
-          id: constants.logging.actions.getWriter,
-          action: constants.logging.actions.getWriter,
-          location: constants.logging.locations.userServerController,
-          req: req,
-          status: constants.logging.status.failed
-        }, response.errorMsg);
-    }
-    return res.status(200).json(response);
-  })();
-};

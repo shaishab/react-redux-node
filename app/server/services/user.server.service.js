@@ -285,24 +285,3 @@ exports.getUserById = function(reqParams) {
     })();
   });
 };
-
-exports.getWriterById = function(reqParams) {
-  return new Promise((resolve) => {
-    Promise.coroutine(function*() {
-      try {
-        let query = {};
-        if(reqParams.id) {
-          query._id =  reqParams.id;
-        }
-        let writer = yield User.findOne(query, {password:0, provider:0, providerData:0, session:0});
-        var successData = {
-          success: true,
-          writer: writer
-        };
-        return resolve(successData);
-      } catch (err) {
-        return resolve({ success: false, errorMsg: errorResolver.resolve(err) });
-      }
-    })();
-  });
-};
