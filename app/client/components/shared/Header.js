@@ -2,25 +2,25 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link, NavLink, withRouter } from 'react-router-dom'
 import LoadingBar from 'react-redux-loading-bar'
-import {userLogOut} from '../actions/userAction'
-import avatar from '../../../public/common/default-avatar.png';
+import {userLogOut} from '../../actions/userAction'
 
 @connect((store) => {
   return {
     userStore: store.user
   };
 })
-class Header extends React.Component {
+class HeaderSection extends React.Component {
   render() {
     var {isLoggedIn, user} = this.props.userStore;
+    var isWriter =  ( user && user.roles && user.roles.indexOf('writer') > -1);
     return (
-      <div>
+      <header>
         <nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
-          <Link to="/" className="navbar-brand">NodeReact</Link>
+          <Link to="/" className="navbar-brand">Node-React-Redux</Link>
           <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                   data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
                   aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"/>
           </button>
 
           <div class="collapse navbar-collapse" id="navbarNav">
@@ -40,11 +40,10 @@ class Header extends React.Component {
               {!isLoggedIn && <Link class="btn btn-outline-success" to="/login">Login</Link>}
               {isLoggedIn && <ul class="nav nav-pills">
                 <li class="nav-item dropdown header-avatar-parent">
-                  <img class="nav-link dropdown-toggle text-center header-avatar img-fluid" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false" src={!user.avater && '../../../public/common/default-avatar.png'}/>
-
+                  {(user && user.profileImageURL) && <img class="nav-link dropdown-toggle text-center header-avatar img-fluid" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                aria-expanded="false" src={user.profileImageURL.toString()} />}
                   <div class="dropdown-menu">
-                    <NavLink to="/user/profile"  className="dropdown-item">Profile</NavLink>
+                    <NavLink to="/profile"  className="dropdown-item">Profile</NavLink>
                     <a href="#"  className="dropdown-item" onClick={(e)=> {e.preventDefault(); this.props.dispatch(userLogOut())}}>Log Out</a>
                   </div>
                 </li>
@@ -54,9 +53,9 @@ class Header extends React.Component {
           </div>
         </nav>
         <LoadingBar class="progress-bar" />
-      </div>
+      </header>
     );
   }
 }
 
-export default withRouter(Header);
+export default withRouter(HeaderSection);
