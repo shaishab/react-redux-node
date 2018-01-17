@@ -2,7 +2,8 @@
 
 var mongoose = require('mongoose'),
   bcrypt   = require('bcrypt-nodejs'),
-  Schema   = mongoose.Schema;
+  Schema   = mongoose.Schema,
+  Promise  = require('bluebird');
 
 
 
@@ -50,21 +51,50 @@ var UserSchema = new Schema({
       default: '',
       validate: [validateLocalStrategyPassword, 'Password should not be empty']
     },
+    status: {
+      type: String,
+      default: "active"
+    },
+    profileImageURL: {
+      type: String,
+      default: '/img/profile/default.png'
+    },
+    designation: {
+      type: String
+    },
+    webUrl: {
+      type: String
+    },
+    stackOverflowProfile: {
+      type: String
+    },
+    gitHubProfile: {
+      type: String
+    },
+    linkedInProfile: {
+      type: String
+    },
     provider: {
       type: String,
       required: 'Provider is required',
       default: 'local'
     },
-    status: {
-      type: String,
-      default: "active"
+    providerData: {},
+    additionalProvidersData: {},
+    roles: {
+      type: [{
+        type: String,
+        enum: ['user', 'writer', 'admin']
+      }],
+      default: ['user'],
+      required: 'Please provide role'
     },
-    role: {
-      type: String,
-      enum: {
-        values: ['admin', 'user']
-      },
-      default: 'user'
+    /* For reset password */
+    resetPasswordToken: {
+      type: String
+    },
+    resetPasswordExpires: {
+      type: Date
     },
     sessions: {
       sessionToken : String,
@@ -97,5 +127,31 @@ UserSchema.pre('save', function(next) {
   }
   next();
 });
+
+UserSchema.statics.findUniqueUsername = function (username, suffix, callback) {
+  var _this = this;
+  return new Promise((resolve) => {
+    Promise.coroutine(function*() {
+      try {
+        var possibleUsername = username.toLowerCase() + (suffix || '');
+        _this.findOne({
+          username: possibleUsername
+        }, function (err, user) {
+          if (!err) {
+            if (!user) {
+              return resolve(possibleUsername);
+            } else {
+              return _this.findUniqueUsername(username, (suffix || 0) + 1, callback);
+            }
+          } else {
+            return resolve(null);
+          }
+        });
+      } catch (err) {
+        return resolve(null);
+      }
+    })();
+  });
+};
 
 module.exports = mongoose.model('User', UserSchema);

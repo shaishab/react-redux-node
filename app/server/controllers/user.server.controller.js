@@ -5,9 +5,9 @@ var utility     = require('../helpers/utility'),
   Promise       = require('bluebird'),
   UserService   = require('../services/user.server.service');
 
-exports.userSignUp = function(req, res) {
+exports.signUp = function(req, res) {
   Promise.coroutine(function*() {
-    var response = yield UserService.userSignUp(req.body);
+    var response = yield UserService.signUp(req);
     if(response.success) {
       utility.logMessage('info',
         {
@@ -83,6 +83,95 @@ exports.signOut = function(req, res) {
   })();
 };
 
+/**
+ * OAuth provider call
+ */
+exports.oauthCall = function (strategy, scope) {
+  return UserService.oauthCall(strategy, scope);
+};
+
+exports.oauthCallback = function (strategy) {
+  return UserService.oauthCallback(strategy);
+};
+
+exports.saveOAuthUserProfile = function(req, providerUserProfile, done) {
+  Promise.coroutine(function*() {
+    var response = yield UserService.saveOAuthUserProfile(req, providerUserProfile);
+    if(response.success) {
+      utility.logMessage('info',
+        {
+          id: constants.logging.actions.saveOAuthUserProfile,
+          action: constants.logging.actions.saveOAuthUserProfile,
+          location: constants.logging.locations.userServerController,
+          req: req ,
+          status: constants.logging.status.success
+        },{data: response});
+    } else {
+      utility.logMessage('error',
+        {
+          id: constants.logging.actions.saveOAuthUserProfile,
+          action: constants.logging.actions.saveOAuthUserProfile,
+          location: constants.logging.locations.userServerController,
+          req: req,
+          status: constants.logging.status.failed
+        }, response.errorMsg);
+    }
+    return done(response.err, response.user, response.info);
+  })();
+};
+
+exports.getUserProfile = function(req, res) {
+  Promise.coroutine(function*() {
+    var response = yield UserService.getUserProfile(req);
+    if(response.success) {
+      utility.logMessage('info',
+        {
+          id: constants.logging.actions.getUserProfile,
+          action: constants.logging.actions.getUserProfile,
+          location: constants.logging.locations.userServerController,
+          req: req ,
+          status: constants.logging.status.success
+        },{user: response.user._id});
+    } else {
+      utility.logMessage('error',
+        {
+          id: constants.logging.actions.getUserProfile,
+          action: constants.logging.actions.getUserProfile,
+          location: constants.logging.locations.userServerController,
+          req: req,
+          status: constants.logging.status.failed
+        }, response.errorMsg);
+    }
+    return res.status(200).json(response);
+  })();
+};
+
+exports.updateUserProfile = function(req, res) {
+  Promise.coroutine(function*() {
+    var response = yield UserService.updateUserProfile(req);
+    if(response.success) {
+      utility.logMessage('info',
+        {
+          id: constants.logging.actions.updateUserProfile,
+          action: constants.logging.actions.updateUserProfile,
+          location: constants.logging.locations.userServerController,
+          req: req ,
+          status: constants.logging.status.success
+        },{user: response.user._id});
+    } else {
+      utility.logMessage('error',
+        {
+          id: constants.logging.actions.updateUserProfile,
+          action: constants.logging.actions.updateUserProfile,
+          location: constants.logging.locations.userServerController,
+          req: req,
+          status: constants.logging.status.failed
+        }, response.errorMsg);
+    }
+    return res.status(200).json(response);
+  })();
+};
+
 exports.list = function(req, res) {
   Promise.coroutine(function*() {
     var response = yield UserService.list();
@@ -94,7 +183,7 @@ exports.list = function(req, res) {
           location: constants.logging.locations.userServerController,
           req: req ,
           status: constants.logging.status.success
-        },{data: response});
+        },{noOfUserReturned: response.users.length});
     } else {
       utility.logMessage('error',
         {
@@ -126,6 +215,32 @@ exports.getUserById = function(req, res) {
         {
           id: constants.logging.actions.getUser,
           action: constants.logging.actions.getUser,
+          location: constants.logging.locations.userServerController,
+          req: req,
+          status: constants.logging.status.failed
+        }, response.errorMsg);
+    }
+    return res.status(200).json(response);
+  })();
+};
+
+exports.getWriterById = function(req, res) {
+  Promise.coroutine(function*() {
+    var response = yield UserService.getWriterById(req.params);
+    if(response.success) {
+      utility.logMessage('info',
+        {
+          id: constants.logging.actions.getWriter,
+          action: constants.logging.actions.getWriter,
+          location: constants.logging.locations.userServerController,
+          req: req ,
+          status: constants.logging.status.success
+        },{data: response});
+    } else {
+      utility.logMessage('error',
+        {
+          id: constants.logging.actions.getWriter,
+          action: constants.logging.actions.getWriter,
           location: constants.logging.locations.userServerController,
           req: req,
           status: constants.logging.status.failed

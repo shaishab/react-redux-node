@@ -14,18 +14,13 @@ var fs 							 = require('fs'),
     multer 					 = require('multer'),
     expressValidator = require('express-validator'),
     cors   					 = require("cors"),
-		passport 				 =  require('passport'),
 		session 				 = require('express-session'),
+		MongoStore 			 = require('connect-mongo')(session),
 		cookieParser 		 = require('cookie-parser');
 
-module.exports = function(db) {
-	var app = express();
+module.exports.initMiddleware = function (app) {
+  // Allow cross origin
 	app.use(cors());
-
-	// Globing model files
-	config.getGlobbedFiles(asset.server.models).forEach(function(modelPath) {
-		require(path.resolve(modelPath));
-	});
 
 	// Passing the request url to environment locals
 	app.use(function(req, res, next) {
@@ -35,66 +30,91 @@ module.exports = function(db) {
 
 	// Should be placed before express.static
 	app.use(compress({
-		filter: function(req, res) {
-			return (/json|text|javascript|css/).test(res.getHeader('Content-Type'));
+		filter: function (req, res) {
+			return (/json|text|javascript|css|font|svg/).test(res.getHeader('Content-Type'));
 		},
 		level: 9
 	}));
 
-	// Setting the app router and static folder
-	app.use(express.static(path.resolve('./public')));
-	app.use(express.static(path.resolve('./dist')));
-	app.set('view engine', 'html');
-	app.use(cookieParser());
-	app.use(session(config.sessionInfo));
-	app.use(passport.initialize());
-	app.use(passport.session());
-
-	/**
-	 * Bootstrap passport config
-	 */
-	require('./auth/passport')();
-
-	// Showing stack errors
-	app.set('showStackError', true);
+	// Environment dependent middleware
+	if (process.env.NODE_ENV === 'development') {
+		// Disable views cache
+		app.set('view cache', false);
+	} else if (process.env.NODE_ENV === 'production') {
+		app.locals.cache = 'memory';
+	}
 
 	// Request body parsing middleware should be above methodOverride
 	app.use(bodyParser.urlencoded({
 		extended: true
 	}));
+	app.use(bodyParser.json());
+	app.use(express.static(path.resolve('./public')));
+	app.use(express.static(path.resolve('./dist')));
+	app.set('view engine', 'html');
+	app.use(cookieParser());
+
 	app.use(bodyParser.json({limit: '5mb'}));
 
-  app.use(multer({
-      dest: './public/uploads/',
-      limits: {
-          fileSize: 1024 * 1024 * 100
-      },
-      onFileSizeLimit: function(file) {
-          fs.unlinkSync('./' + file.path);
-      }
-  }).array('files'));
+	app.use(multer({
+		dest: './public/uploads/',
+		limits: {
+			fileSize: 1024 * 1024 * 100
+		},
+		onFileSizeLimit: function(file) {
+			fs.unlinkSync('./' + file.path);
+		}
+	}).array('files'));
 
 	// use for field validation and customizing the messages
 	app.use(expressValidator({
-	  errorFormatter: function(param, msg, value) {
-	    return {
-	 			message: msg
-	    };
-	  }
-	}));	
+		errorFormatter: function(param, msg, value) {
+			return {
+				message: msg
+			};
+		}
+	}));
+};
 
-	// Globbing routing files
-	config.getGlobbedFiles(asset.server.routes).forEach(function(routePath) {
-    // skip middlewares as it is not a routese
-    if( routePath.indexOf("middlewares") == -1)
-    {
-        require(path.resolve(routePath))(app);
-    }
+// Initialize error route
+module.exports.initErrorRoutes = function (app) {
+	// Assume 'not found' in the error msgs is a 404.
+	app.use(function(err, req, res, next) {
+		if (!err) return next();
+		// Error page
+		res.status(500).send('Error Please see log for details.');
 	});
 
-  app.set('json spaces', 2);
-  app.set('jwtTokenSecret', 'jwt-secret-key');
+	// Assume 404 since no middleware responded
+	app.use(function(err, req, res, next) {
+		if (!err) return next();
+		res.status(404).send('Uknown Error');
+	});
+};
 
+// Express MongoDB session storage
+module.exports.initSession = function (app, db) {
+	app.use(session({
+		saveUninitialized: true,
+		resave: true,
+		secret: config.session.secret,
+		cookie: config.session.cookie,
+		name: config.session.name,
+		store: new MongoStore({
+			mongooseConnection: db
+		})
+	}));
+};
+
+// Globing routes files
+module.exports.initServerRoutes = function (app) {
+	config.getGlobbedFiles(asset.server.routes).forEach(function(routePath) {
+		require(path.resolve(routePath))(app);
+	});
+};
+
+//return client index.html with response
+module.exports.initClientHomePage = function (app) {
 	app.use('*', function (req, res, next) {
 		const filename = path.join('./dist/', 'index.html');
 		fs.readFile(filename, (err, result) => {
@@ -107,37 +127,46 @@ module.exports = function(db) {
 			res.end();
 		})
 	});
+};
 
-	// Assume 'not found' in the error msgs is a 404.
-	app.use(function(err, req, res, next) {
-		// If the error object doesn't exists
-		if (!err) return next();
 
-		// Log it
-		//logger.error(err.stack);
+/**
+ * Initialize the Express application
+ */
+module.exports.init = function(db) {
+	var app = express();
+	// Initialize middleware
+	this.initMiddleware(app);
 
-		// Error page
-		res.status(500).send('Error Please see log for details.');
-	});
+	// Initialize session
+	this.initSession(app, db);
 
-	// Assume 404 since no middleware responded
-	app.use(function(err, req, res, next) {
-		if (!err) return next();
-		res.status(404).send('Uknown Error');
-	});
+	//Bootstrap passport config
+	require('./auth/passport.server.config')(app);
+
+	// Showing stack errors
+	app.set('showStackError', true);
+
+	// Initialize models
+	//this.initServerModels();
+
+
+	// Initialize routes
+	this.initServerRoutes(app);
+
+  //app.set('json spaces', 2);
+
+	// Initialize error routes
+	this.initErrorRoutes(app);
+
+	// Initialize client home page. should call at the end
+	this.initClientHomePage(app);
 
 	if (process.env.NODE_ENV === 'production') {
-		// Log SSL usage
-		console.log('Securely using https protocol');
-
-		// Load SSL key and certificate
-		var privateKey = fs.readFileSync('./app/server/config/sslcerts/key.pem', 'utf8');
-		var certificate = fs.readFileSync('./app/server/config/sslcerts/cert.pem', 'utf8');
-
 		// Create HTTPS Server
 		var httpsServer = https.createServer({
-			key: privateKey,
-			cert: certificate
+			key: 'privateKey',
+			cert: 'certificate'
 		}, app);
 
 		// Return HTTPS server instance

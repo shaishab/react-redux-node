@@ -18,8 +18,7 @@ var logger = new winston.Logger({
 
         timestamp: function() {
             var d = new Date();//Date.now();
-            var s = d.getFullYear() + ' ' + ( d.getMonth() >= 10 ? d.getMonth(): '0'+ d.getMonth()) + ' '+d.getDate() + ' '+ d.getHours()+':'+d.getMinutes()+':'+d.getSeconds()+':'+d.getMilliseconds();//d.format('yyyy-MM-dd-HH:mm:ss');
-            return s;
+            return d.getFullYear() + ' ' + ( d.getMonth() >= 10 ? d.getMonth(): '0'+ d.getMonth()) + ' '+d.getDate() + ' '+ d.getHours()+':'+d.getMinutes()+':'+d.getSeconds()+':'+d.getMilliseconds();//d.format('yyyy-MM-dd-HH:mm:ss');
         },
 
         formatters: function(options) {
@@ -30,9 +29,9 @@ var logger = new winston.Logger({
 
     }),
     new winston.transports.Loggly({
-      //inputToken: '9c4820c6-8f3d-4aa0-9e6d-f8ba3e333485',
-      subdomain: 'node-rect',
-      tags: ['node-react-redesign'],
+      inputToken: 'node-react-redux-example',
+      subdomain: 'node-react-redux',
+      tags: ['node-react-redux'],
       json: true,
       handleExceptions: true,
       name: 'loggly-logging',

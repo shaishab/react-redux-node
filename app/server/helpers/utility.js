@@ -1,6 +1,6 @@
 var _ = require("lodash");
 var os = require('os');
-//var logger = require('../helpers/logger');
+var logger = require('../helpers/logger');
 var config = require('../config/config');
 var util = require('util');
 
@@ -40,9 +40,9 @@ exports.logMessage = function(level, data, logMsg){
       logData.url = data.req.path;
       logData.query = JSON.stringify(query).replace(/\\/g, "");
     }catch(e){
-      //logger.log('error', 'Error Parsing query in utility.logMessage', logData);
+      logger.log('error', 'Error Parsing query in utility.logMessage', logData);
     }
   }
 
-  //logger.log(level, logMsg, logData );
+  logger.log(level, logMsg, logData );
 };
