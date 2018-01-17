@@ -1,4 +1,4 @@
-# react-redux-node
+# react-redux-node example
 This is a simple starter example project using react redux with node.js ( express framework ) and used MongoDB as a database .
 In this project also used bootstrap-4, and react-redux-loading-bar to show loading progress bar while getting response.
 
@@ -30,3 +30,6 @@ This is a starter boilerplate for web application. This project using together t
 * [axios](https://github.com/axios/axios) Promise based HTTP client for the browser and node.js.
 * [react-redux-loading-bar](https://github.com/mironov/react-redux-loading-bar) A React component that provides Loading Bar.
 * [bootstrap-4](https://github.com/twbs/bootstrap)
+* [font-awesome](https://github.com/FortAwesome/Font-Awesome)
+* [passport-github](https://github.com/jaredhanson/passport-github) For GitHub authentication
+* [react-redux-toastr](https://github.com/diegoddox/react-redux-toastr) For toaster message
