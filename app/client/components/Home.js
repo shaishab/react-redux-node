@@ -1,14 +1,21 @@
-import React from "react";
+import React from "react"
+import { connect } from "react-redux"
+import { oAuthProviderFinalCall } from '../actions/userAction'
 
-//export default function Home() {
-//  return (
-//      <div>
-//        <h2>Hello react redux this is home page</h2>
-//      </div>
-//  )
-//}
-
+@connect((store) => {
+  return {
+    ...store
+  };
+})
 class Home extends React.Component {
+  constructor(props) {
+    super();
+    const { search } = props.location;
+    if(search != '') {
+      props.dispatch(oAuthProviderFinalCall(search));
+    }
+  }
+
   render() {
     return (
       <div>

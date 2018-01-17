@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
+import { connect } from "react-redux"
 import { Link } from 'react-router-dom'
 import {fetchUsers} from "../../actions/userAction"
 
@@ -24,9 +24,6 @@ export default class UserList extends React.Component {
       <div class="row justify-content-between align-items-center">
         <div class="col-6">
           <strong>User list bellow:</strong>
-        </div>
-        <div class="col-6 text-right">
-          <Link to="/user/create" className="btn btn-primary btn-sm">Create User</Link>
         </div>
       </div>
       <hr/>

@@ -1,0 +1,57 @@
+.profile-header {
+	border-bottom: 1px solid #ccc;
+	display: flex;
+	justify-content: flex-start;
+	margin-top: 10px;
+	max-height: 300px;
+	padding-bottom: 5px;
+}
+.profile-pic-point {
+	background-image: -webkit-linear-gradient(top, #aee2a1 0%, #ffffff 100%);
+	background-image: -o-linear-gradient(top, #aee2a1 0%, #ffffff 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#aee2a1), color-stop(100%,#ffffff));
+	background-image: -moz-linear-gradient(left top, color-stop(0%,#aee2a1), color-stop(100%,#ffffff));
+	background-image: linear-gradient(to bottom,  #aee2a1 0%, #ffffff 100%);
+	background-repeat: repeat-x;
+	border: 1px solid #cccccc;
+	border-radius: 4px;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3c3c3c', endColorstr='#ff222222', GradientType=0);
+	margin-right: 10px;
+	max-height: 175px;
+	padding: 10px;
+}
+.profile-point {
+	font-size: 20px;
+}
+.profile-point span {
+	color: #9696a0;
+}
+.profile-info {
+	max-height: 300px;
+	padding-left: 10px;
+}
+.profile-name {
+	line-height: 28px;
+	margin: 10px 0 5px 0 !important;
+	color: #3b1fce;
+}
+.profile-designation {
+	color: #777;
+	font-size: 18px;
+	line-height: 20px;
+}
+.profile-email {
+	color: #16a7e0;
+	font-size: 14px;
+	line-height: 20px;
+	margin-bottom: 14px;
+}
+.profile-about {
+	max-height: 300px;
+	padding-left: 10px;
+}
+.profile-activity {
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+}

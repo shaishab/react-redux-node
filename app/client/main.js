@@ -2,6 +2,9 @@ import React from "react"
 import ReactDOM from "react-dom"
 import {Provider} from "react-redux"
 import { ConnectedRouter } from 'react-router-redux'
+import { IntlProvider } from 'react-intl'
+import ReduxToastr from 'react-redux-toastr'
+import "./img/profile/default.png"
 
 // loaded bootstrap
 import "bootstrap";
@@ -16,9 +19,11 @@ const app = document.getElementById('app');
 
 ReactDOM.render(
   <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <Layout/>
-    </ConnectedRouter>
+    <IntlProvider locale="en">
+      <ConnectedRouter history={history}>
+        <Layout/>
+      </ConnectedRouter>
+    </IntlProvider>
   </Provider>
 
   ,app);

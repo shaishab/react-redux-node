@@ -1,0 +1,109 @@
+.sign-in-up-box {
+	padding: 10px;
+}
+.sign-in-up-header {
+	border-bottom: 1px solid #cccccc;
+	padding: 10px;
+	position: relative;
+}
+.sign-in-up-body {
+	border-bottom: 1px solid #ccc;
+}
+.or {
+	background-color: #cccccc;
+	border: 1px solid #cccccc;
+	border-radius: 22px;
+	margin-left: 47%;
+	margin-top: -7px;
+	padding: 5px;
+	position: absolute;
+	vertical-align: bottom;
+	z-index: 10;
+}
+.social-btn-container {
+	padding: 5px;
+}
+
+.social-btn-container .btn:hover {
+	color: #fff;
+	opacity: 0.75;
+}
+.btn-length {
+	width: 90%;
+}
+.btn-fb {
+	background: linear-gradient(to bottom, #337ab7 0%, #3b5798 100%) !important;
+	border-color: #2e6da4;
+	color: #ffffff;
+}
+.btn-gg {
+	background: linear-gradient(to bottom, #ff4220 0%, #ff341d 100%) !important;
+	border-color: #ff4220 ;
+	color: #ffffff;
+}
+.btn-ln {
+	background: linear-gradient(to bottom, #2F99BA 0%, #056698 100%) !important;
+	border-color: #007bba;
+	color: #ffffff;
+}
+.btn-gh {
+	background: linear-gradient(to bottom, #8c8c8c 0%, #3c3c3c 100%) !important;
+	border-color: #8c8c8c;
+	color: #ffffff;
+}
+.btn-tw {
+	background: linear-gradient(to bottom, #08B7B5 0%, #08B7C5 100%) !important;
+	border-color: #08B7B5;
+	color: #ffffff;
+}
+.social-part {
+	padding-bottom: 10px;
+}
+.social-part h3 {
+	color: #948c8c;
+}
+.own-part {
+	border-left: 1px solid #ccc;
+}
+.own-part h3 {
+	color: #948c8c;
+}
+.forgot-password-form {
+	border: 1px solid #ccc;
+	box-shadow: 5px 5px 10px #ccc;
+	margin-top: 10px;
+}
+
+@media only screen and (min-width: 769px){
+	.or-xs-parent {
+		display: none;
+	}
+	.or-xs {
+		display: none;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	.or {
+		display: none;
+	}
+	.own-part {
+		border-left: none;
+	}
+	.or-xs-parent {
+		border-bottom: 1px solid #cccccc;
+		margin-bottom: 15px;
+		margin-top: 15px;
+	}
+	.or-xs {
+		background-color: #cccccc;
+		border: 1px solid #cccccc;
+		border-radius: 22px;
+		margin-left: 44%;
+		margin-top: -17px;
+		padding: 5px;
+		position: absolute;
+		vertical-align: bottom;
+		z-index: 10;
+	}
+}

@@ -2,5 +2,5 @@
 
 module.exports = {
   apiHost: 'http://localhost:8080',
-  apiExtension: '/nodereact/api'
+  apiExtension: '/api'
 };
