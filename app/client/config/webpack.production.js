@@ -75,12 +75,30 @@ module.exports = {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: "css-loader"
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                sourceMap: true
+              }
+            }
+          ]
         })
       },
       {
-        test: /\.(jpe?g|gif|png)$/,
-        loader: 'file-loader?emitFile=false&name=[path][name].[ext]'
-      }]
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              publicPath: "../../../",
+              outputPath: path.join(rootPath, '/dist/'),
+              useRelativePath: true
+            }
+          }
+        ]
+      }
+    ]
   }
 };

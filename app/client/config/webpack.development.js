@@ -52,7 +52,14 @@ module.exports = {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: "css-loader"
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                sourceMap: true
+              }
+            }
+          ]
         })
       },
       {
@@ -61,11 +68,14 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: '[path][name].[ext]',
-              publicPath: path.join(rootPath, '/public/')
+              name: '[name].[ext]',
+              //publicPath: "../../../",
+              //outputPath: path.join(rootPath, '/dist/'),
+              useRelativePath: true
             }
           }
         ]
-      }]
+      }
+    ]
   }
 };
