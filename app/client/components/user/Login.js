@@ -1,17 +1,22 @@
 import React from "react"
 import { connect } from "react-redux"
 import { Link } from 'react-router-dom'
-import {userLogin} from "../actions/userAction"
-
 import { Field, reduxForm } from 'redux-form'
+
+import {userLogin} from "../../actions/userAction"
+import SocialAuthProviders from './SocialAuthProviders'
 
 const SimpleLogInForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props;
   return (
     <div>
-      <div class="row">
+      <div class="row justify-content-between">
         <div class="col-4">
-          User login Information:
+          <strong>User login Information:</strong>
+        </div>
+        <div class="col-5">
+          <strong>Not Registered ? </strong>
+          <Link to="/registration" className="btn btn-primary btn-sm">Registration</Link>
         </div>
       </div>
       <hr/>
@@ -43,12 +48,15 @@ const SimpleLogInForm = props => {
         <div class="form-group row">
           <div class="offset-sm-2 col-sm-10">
             <button type="submit" class="btn btn-primary" style={{marginRight: 5+'px'}} disabled={pristine || submitting}>Login</button>
-            <button type="button" class="btn btn-warning" disabled={pristine || submitting} onClick={reset}>
-              Clear Values
-            </button>
           </div>
         </div>
       </form>
+      <div class="text-center">
+        <fieldset class="divider-fieldset">
+          <legend>OR</legend>
+        </fieldset>
+      </div>
+      <SocialAuthProviders/>
     </div>
   );
 };
@@ -76,6 +84,7 @@ export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.handlers = createHandlers(this.props.dispatch);
+    localStorage.removeItem('user');
   }
   render() {
     return <UserLoginForm onSubmit={this.handlers.userLoginHandler}/>

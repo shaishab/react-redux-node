@@ -1,17 +1,18 @@
 import React from "react"
 import { connect } from "react-redux"
 import { Link } from 'react-router-dom'
-import {createUser} from "../../actions/userAction"
+import {userRegistration} from "../../actions/userAction"
+import SocialAuthProviders from './SocialAuthProviders'
 
 import { Field, reduxForm } from 'redux-form';
 
-const SimpleForm = props => {
-  const { handleSubmit, pristine, reset, submitting } = props;
+const RegistrationForm = props => {
+  const { handleSubmit, pristine, submitting } = props;
   return (
     <div>
       <div class="row justify-content-between align-items-center">
         <div class="col-6">
-          <strong>New user Information</strong>
+          <strong>Registration Information</strong>
         </div>
         <div class="col-6 text-right">
           <Link to="/user" className="btn btn-primary btn-sm ">Back</Link>
@@ -20,7 +21,7 @@ const SimpleForm = props => {
       <hr/>
       <form onSubmit={handleSubmit}>
         <div class="form-group row">
-          <label for="inputEmail3" class="col-sm-2 col-form-label">First Name</label>
+          <label class="col-sm-2 col-form-label">First Name</label>
           <div class="col-sm-10">
             <Field
               name="firstName"
@@ -32,7 +33,7 @@ const SimpleForm = props => {
           </div>
         </div>
         <div class="form-group row">
-          <label for="inputEmail3" class="col-sm-2 col-form-label">Last Name</label>
+          <label class="col-sm-2 col-form-label">Last Name</label>
           <div class="col-sm-10">
             <Field
               name="lastName"
@@ -44,7 +45,7 @@ const SimpleForm = props => {
           </div>
         </div>
         <div class="form-group row">
-          <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+          <label class="col-sm-2 col-form-label">Email</label>
           <div class="col-sm-10">
             <Field
               name="email"
@@ -56,7 +57,7 @@ const SimpleForm = props => {
           </div>
         </div>
         <div class="form-group row">
-          <label for="inputPassword3" class="col-sm-2 col-form-label">Password </label>
+          <label class="col-sm-2 col-form-label">Password </label>
           <div class="col-sm-10">
             <Field
               name="password"
@@ -70,26 +71,29 @@ const SimpleForm = props => {
         <div class="form-group row">
           <div class="offset-sm-2 col-sm-10">
             <button type="submit" class="btn btn-primary" style={{marginRight: 5+'px'}} disabled={pristine || submitting}>Submit</button>
-            <button type="button" class="btn btn-warning" disabled={pristine || submitting} onClick={reset}>
-              Clear Values
-            </button>
           </div>
         </div>
       </form>
+      <div class="text-center">
+        <fieldset class="divider-fieldset">
+          <legend>OR</legend>
+        </fieldset>
+      </div>
+      <SocialAuthProviders/>
     </div>
   );
 };
 
-let UserCreateForm =  reduxForm({
-  form: 'simple'
-})(SimpleForm);
+let UserRegistrationForm =  reduxForm({
+  form: 'registrationForm'
+})(RegistrationForm);
 
 let createHandlers = function(dispatch) {
-  let createUserHandlers = function(data) {
-    dispatch(createUser(data));
+  let userRegistrationHandlers = function(data) {
+    dispatch(userRegistration(data));
   };
   return {
-    createUserHandlers
+    userRegistrationHandlers
   };
 };
 
@@ -99,12 +103,12 @@ let createHandlers = function(dispatch) {
     ...store
   };
 })
-export default class UserCreate extends React.Component {
+export default class Registration extends React.Component {
   constructor(props) {
     super(props);
     this.handlers = createHandlers(this.props.dispatch);
   }
   render() {
-    return <UserCreateForm onSubmit={this.handlers.createUserHandlers}/>
+    return <UserRegistrationForm onSubmit={this.handlers.userRegistrationHandlers}/>
   }
 }
